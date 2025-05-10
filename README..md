@@ -11,6 +11,10 @@ TicTacToe repository for Software Architecture and Design Patterns exercises.
 
 ## Collaborators
 
+- Name: Ashish Ghaskata
+- Student-ID (Matrikelnummer):2261151
+- S-Number: s231073
+
 
 
 ## Structure of this repository
