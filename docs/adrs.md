@@ -10,6 +10,7 @@
 * [ADR 006 - Containerization with Docker](#adr-006-containerization-with-docker)
 * [ADR 007 - Single-Package Deployment (No Separate Frontend/Backend)](#adr-007-single-package-deployment-no-separate-frontend-backend)
 * [ADR 008 - Build Tooling for Development and Production](#adr-008-build-tooling-for-development-and-production)
+* [ADR 009 - Player Turn Handling Architecture](#adr-009-player-turn-handling-architecture)
 
 ---
 
@@ -17,6 +18,7 @@
 ## ADR 001 - Programming Language
 
 **Title:** Programming Language
+
 **Status:** Accepted
 
 ### Context
@@ -52,6 +54,7 @@
 ## ADR 002 - Client-Side SPA vs. Server-Side Rendering
 
 **Title:** Application Architecture Style
+
 **Status:** Accepted
 
 ### Context
@@ -87,6 +90,7 @@
 ## ADR 003 - UI Framework Selection
 
 **Title:** UI Framework Selection
+
 **Status:** Accepted
 
 ### Context
@@ -122,6 +126,7 @@
 ## ADR 004 - Client-Side State Storage
 
 **Title:** State Persistence Mechanism
+
 **Status:** Accepted
 
 ### Context
@@ -157,6 +162,7 @@
 ## ADR 005 - Automated Unit Testing Before Deployment
 
 **Title:** Testing Strategy
+
 **Status:** Accepted
 
 ### Context
@@ -192,6 +198,7 @@
 ## ADR 006 - Containerization with Docker 
 
 **Title:** Packaging and Deployment Image
+
 **Status:** Accepted
 
 ### Context
@@ -227,6 +234,7 @@
 ## ADR 007 - Single-Package Deployment (No Separate Frontend/Backend) 
 
 **Title:** Monolithic Deployment Package
+
 **Status:** Accepted
 
 ### Context
@@ -263,6 +271,7 @@ id="adr-008-build-tooling-for-development-and-production"></a>
 ## ADR 008 - Build Tooling for Development and Production 
 
 **Title:** Build Tooling Selection
+
 **Status:** Accepted
 
 ### Context
@@ -295,3 +304,49 @@ id="adr-008-build-tooling-for-development-and-production"></a>
 
 * Advantages: Rapid feedback; small bundle.
 * Disadvantages: Ecosystem maturity risks.
+
+
+
+<a id="adr-009-player-turn-handling-architecture"></a>
+## ADR 009 – Player Turn Handling Architecture
+
+**Title:** Player Turn Handling Architecture
+
+**Status:** Accepted
+
+### Context
+
+* **Problem:** Players must be able to take turns from separate devices (e.g., father at office, son at school), with the game enforcing valid turn order and keeping the board state consistent.
+* **Environmental Conditions:** Browser-based SPA (React + TypeScript), instant browser access, no installation, cross-device play required.
+* **Quality Objectives:** Functional Suitability, Usability, Reliability.
+
+### Alternatives
+
+1. **Frontend-Only Local State**
+
+   * **Advantages:** Extremely simple, fast, no backend needed.
+   * **Disadvantages:** Only supports two players sharing a single device; cannot synchronize turns or game state across devices.
+
+2. **Backend-Driven Shared State**
+
+   * **Advantages:** Allows play from different devices/browsers; ensures authoritative game state and turn enforcement; supports both local and remote play.
+   * **Disadvantages:** Requires backend development (API, session management); increased architectural complexity.
+
+### Decision
+
+* **Evaluation:** Only a backend-driven approach fully satisfies the requirement that players (e.g., Lukas and Herr Hofmann) can each take turns from their own device, ensuring consistent game state and valid turns.
+* **Final Decision:** Use a backend-driven shared state architecture, where all moves are processed by a central server and reflected in real time in every connected client.
+
+### Consequences
+
+* **Advantages:**
+
+  * Both personas’ user journeys are supported: play from any device, anywhere.
+  * Centralized logic prevents out-of-turn moves and state desynchronization.
+  * Future features like “invite friend” or statistics are easier to add.
+
+* **Disadvantages:**
+
+  * Additional development complexity (need for a backend).
+  * Server hosting and session management required.
+
