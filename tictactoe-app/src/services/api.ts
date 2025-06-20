@@ -42,5 +42,9 @@ export const api = {
       onUpdate(JSON.parse(event.data));
     };
     return () => eventSource.close();
-  }
+  },
+
+  async resetGame(){
+    await fetch(`${API_URL}/reset`, { method: 'POST' });
+  },
 };

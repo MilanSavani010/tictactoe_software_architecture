@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 interface NameInputProps {
-  onSubmit: (name: string) => void;
+  onSubmit: ((name: string) => void);
   defaultValue?: string;
 }
 export function NameInput({ onSubmit, defaultValue }: NameInputProps) {

@@ -11,6 +11,7 @@
 * [ADR 007 - Single-Package Deployment (No Separate Frontend/Backend)](#adr-007-single-package-deployment-no-separate-frontend-backend)
 * [ADR 008 - Build Tooling for Development and Production](#adr-008-build-tooling-for-development-and-production)
 * [ADR 009 - Player Turn Handling Architecture](#adr-009-player-turn-handling-architecture)
+* [ADR 010 – Backend Dependency Injection Pattern](#adr-010-backend-dependency-injection)
 
 ---
 
@@ -349,4 +350,47 @@ id="adr-008-build-tooling-for-development-and-production"></a>
 
   * Additional development complexity (need for a backend).
   * Server hosting and session management required.
+
+
+<a id="adr-010-backend-dependency-injection"></a>
+## ADR 010 – Backend Dependency Injection Pattern
+
+**Title:** Backend Dependency Injection Pattern
+
+**Status:** Accepted
+
+### Context
+
+* **Problem:** As our backend grows, we need to decouple components (controllers, services, repositories, domain logic) to improve testability, maintainability, and flexibility.
+* **Environmental Conditions:** Node.js backend using CommonJS modules, Express for HTTP API, and a Domain-Driven Design (DDD) structure.
+* **Quality Objectives:** Testability, Maintainability, Low Coupling, High Cohesion.
+
+### Alternatives
+
+1. **Manual Dependency Passing**
+   * *Advantages:* Simple, explicit.
+   * *Disadvantages:* Tedious and error-prone as the number of dependencies grows; harder to swap implementations in tests.
+
+2. **Service Locator Pattern**
+   * *Advantages:* Centralizes dependency management.
+   * *Disadvantages:* Hides dependencies, making code harder to reason about and test; can lead to hidden coupling.
+
+3. **Dependency Injection (DI) Pattern with a Container (e.g., Awilix)**
+   * *Advantages:* Explicit dependencies, easy to swap implementations (for testing/mocking), supports constructor injection, aligns with DDD and modern Node.js practices.
+   * *Disadvantages:* Slight learning curve; adds a small dependency.
+
+### Decision
+
+* **Evaluation:** DI with a container (Awilix) provides the best balance of explicitness, testability, and maintainability. It allows us to inject repositories into services, and services into controllers, without manual wiring or hidden dependencies.
+* **Final Decision:** Adopt the Dependency Injection pattern using [Awilix](https://github.com/jeffijoe/awilix) as our DI container for the backend.
+
+### Consequences
+
+* **Advantages:**
+  * All dependencies are explicit and easily swappable for testing.
+  * Code is easier to maintain and extend as the project grows.
+  * Aligns with our DDD structure and other architectural decisions (see ADR 009 for backend-driven state).
+* **Disadvantages:**
+  * Slightly more complex setup.
+  * Developers must understand the DI container’s API.
 

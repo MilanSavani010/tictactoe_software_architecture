@@ -1,62 +1,42 @@
-import { useGameStore, useGameActions } from './gameStore';
+import { usePlayer, useCurrentPlayer, useBoard, useGameActions, useSessionId} from './gameStore';
 import { api } from '../services/api';
 
-function useActionHandlers() {
-  const player = useGameStore((state) => state.player);
-  const currentPlayer = useGameStore((state) => state.currentPlayer);
-  const board = useGameStore((state) => state.board);
+export function useGameHandlers() {
+  const player = usePlayer();
+  const currentPlayer = useCurrentPlayer();
+  const board = useBoard();
+  const sessionId = useSessionId();
   const { setPlayer } = useGameActions();
+  const { setName } = useGameActions();
 
-  const assignPlayerRole = async (requested: 'X' | 'O') => {
-    const sessionId = localStorage.getItem('sessionId')!;
-    const assigned = await api.assignPlayer(sessionId, requested);
+  // Handler for selecting a player role
+  const onPlayerSelect = async (role: 'X' | 'O') => {
+    const assigned = await api.assignPlayer(sessionId, role);
     if (assigned) {
       setPlayer(assigned);
-      localStorage.setItem('player', assigned);
     } else {
-      handleError('Both players are already taken!');
+      alert('Both players are already taken!');
     }
   };
 
-  const makeMove = async (index: number) => {
+  // Handler for clicking a cell
+  const onCellClick = async (index: number) => {
     if (!player || currentPlayer !== player || board[index]) return;
     await api.makeMove(player, index);
   };
 
-  return { assignPlayerRole, makeMove };
-}
-
-
-function useEventHandlers() {
-  const { assignPlayerRole, makeMove } = useActionHandlers();
-
-  const onPlayerSelect = (role: 'X' | 'O') => {
-    assignPlayerRole(role);
+  const onResetGame = async () => {
+    await api.resetGame();
   };
 
-  // UI event: player clicks a cell
-  const onCellClick = (index: number) => {
-    makeMove(index);
+  // Handler for submitting player name
+  const onNameSubmit = async (inputName: string) => {
+    setName(inputName);
+    if (player) {
+      await api.setPlayerName(player, inputName);
+    }
   };
 
-  return { onPlayerSelect, onCellClick };
+
+  return { onPlayerSelect, onCellClick, onResetGame, onNameSubmit };
 }
-
-function useInputHandlers() {
-  const validatePlayerName = (name: string) => {
-    return typeof name === 'string' && name.trim().length > 0;
-  };
-
-  return { validatePlayerName };
-}
-
-function handleError(message: string) {
-  alert(message);
-}
-
-export {
-  useActionHandlers,
-  useEventHandlers,
-  useInputHandlers,
-  handleError,
-};

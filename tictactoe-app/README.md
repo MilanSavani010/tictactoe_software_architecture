@@ -75,22 +75,54 @@ The Docker container uses `npm run preview` to serve the production build on por
 
 ---
 
-## Project Structure
-
+## Frontend (`src/`) Architecture
 ```
-tictactoe-app/
-├── src/
-│   ├── components/         # React components
-│   ├── tests/              # Unit tests
-│   ├── App.tsx             # Main app component
-│   ├── main.tsx            # Entry point
-│   └── index.css           # Global styles
-├── public/                 # Static assets
-├── Dockerfile
-├── package.json
-├── vite.config.ts
-├── vitest.config.ts
-└── ...
+┌────────────────────────────────────────────────────────────┐
+│                        UI Layer                            │
+│   App.tsx, components/ (PlayerSelector, TicTacToeBoard,    │
+│   NameInput, etc.)                                         │
+└───────────────▲────────────────────────────────────────────┘
+                │
+┌───────────────┴────────────────────────────────────────────┐
+│                  State Management Layer                    │
+│   store/gameStore.ts (Zustand store & hooks)               │
+│   store/gameHandlers.ts (UI event handlers)                │
+│   store/gameEffects.ts (side effects, SSE subscription)    │
+└───────────────▲────────────────────────────────────────────┘
+                │
+┌───────────────┴────────────────────────────────────────────┐
+│                    API Layer                               │
+│   services/api.ts (all backend communication)              │
+└────────────────────────────────────────────────────────────┘
+```
+
+## Backend (`server/`) Architecture
+```
+
+┌────────────────────────────────────────────────────────────┐
+│                        API Layer                           │
+│                (Express Controllers)                       │
+│   server/api/gameController.cjs                            │
+└───────────────▲────────────────────────────────────────────┘
+                │
+┌───────────────┴────────────────────────────────────────────┐
+│                  Application Layer                         │
+│             (Orchestrates Use Cases)                       │
+│   server/application/GameService.cjs                       │
+└───────────────▲────────────────────────────────────────────┘
+                │
+┌───────────────┴────────────────────────────────────────────┐
+│                      Data Layer                            │
+│         (Persistence, Listeners, State Storage)            │
+│   server/data/GameRepository.cjs                           │
+└───────────────▲────────────────────────────────────────────┘
+                │
+┌───────────────┴────────────────────────────────────────────┐
+│                    Domain Layer                            │
+│         (Business Logic, Entities, Rules)                  │
+│   server/domain/Game.cjs                                   │
+└────────────────────────────────────────────────────────────┘
 ```
 
 ---
+
