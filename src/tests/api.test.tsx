@@ -109,8 +109,9 @@ describe('api service', () => {
 
     // Simulate receiving a message
     const mockState = { board: [], currentPlayer: 'O' };
-    eventSourceOnMessage &&
-      eventSourceOnMessage({ data: JSON.stringify(mockState) });
+    if (eventSourceOnMessage) {
+      (eventSourceOnMessage as (event: any) => void)({ data: JSON.stringify(mockState) });
+    }
 
     expect(global.EventSource).toHaveBeenCalledWith('http://localhost:3001/events');
     expect(onUpdate).toHaveBeenCalledWith(mockState);
