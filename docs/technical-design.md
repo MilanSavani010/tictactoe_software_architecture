@@ -20,7 +20,4 @@
 
 ---
 
-**How the tests work:**  
-Unit tests are written using [Vitest](https://vitest.dev/) and [React Testing Library](https://testing-library.com/).  
-Each test renders a component in isolation, simulates user actions (like clicking), and asserts the expected UI or callback behavior.  
-This ensures the UI and logic for these features work as intended before integration.
+
