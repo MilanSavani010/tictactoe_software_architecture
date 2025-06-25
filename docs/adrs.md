@@ -375,14 +375,14 @@ id="adr-008-build-tooling-for-development-and-production"></a>
    * *Advantages:* Centralizes dependency management.
    * *Disadvantages:* Hides dependencies, making code harder to reason about and test; can lead to hidden coupling.
 
-3. **Dependency Injection (DI) Pattern with a Container (e.g., Awilix)**
-   * *Advantages:* Explicit dependencies, easy to swap implementations (for testing/mocking), supports constructor injection, aligns with DDD and modern Node.js practices.
+3. **Dependency Injection (DI) Pattern with a Container (e.g., tsyringe)**
+   * *Advantages:* Explicit dependencies, easy to swap implementations (for testing/mocking), supports constructor injection, aligns with DDD and modern Node.js practices, and works with CommonJS.
    * *Disadvantages:* Slight learning curve; adds a small dependency.
 
 ### Decision
 
-* **Evaluation:** DI with a container (Awilix) provides the best balance of explicitness, testability, and maintainability. It allows us to inject repositories into services, and services into controllers, without manual wiring or hidden dependencies.
-* **Final Decision:** Adopt the Dependency Injection pattern using [Awilix](https://github.com/jeffijoe/awilix) as our DI container for the backend.
+* **Evaluation:** DI with a container (`tsyringe`) provides the best balance of explicitness, testability, and maintainability. It allows us to inject repositories into services, and services into controllers, without manual wiring or hidden dependencies. We use `tsyringe` as it is lightweight, supports CommonJS, and integrates well with our current codebase.
+* **Final Decision:** Adopt the Dependency Injection pattern using [tsyringe](https://github.com/microsoft/tsyringe) as our DI container for the backend.
 
 ### Consequences
 
@@ -390,7 +390,7 @@ id="adr-008-build-tooling-for-development-and-production"></a>
   * All dependencies are explicit and easily swappable for testing.
   * Code is easier to maintain and extend as the project grows.
   * Aligns with our DDD structure and other architectural decisions (see ADR 009 for backend-driven state).
+  * Works seamlessly with CommonJS modules and our current Node.js setup.
 * **Disadvantages:**
   * Slightly more complex setup.
   * Developers must understand the DI container’s API.
-
