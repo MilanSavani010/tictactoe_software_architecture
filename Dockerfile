@@ -13,6 +13,7 @@ COPY . .
 
 RUN npm run build && npm run postbuild
 
+EXPOSE 8080
 EXPOSE 3001
 
-CMD ["npm", "run", "start", "--", "--host", "0.0.0.0", "--port", "3001"]
+CMD ["npm", "run", "start:all"]

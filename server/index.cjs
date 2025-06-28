@@ -9,25 +9,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/s231063', express.static(path.join(__dirname, '../public')));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
 
 // Resolve dependencies using DI container
 const gameService = container.resolve('GameService');
 const gameController = createGameController(gameService);
 
 // Routes
-app.post('/set-name', gameController.setPlayerName);
-app.post('/assign-player', gameController.assignPlayer);
-app.post('/move', gameController.makeMove);
-app.post('/reset', gameController.reset);
-app.get('/state', gameController.getState);
-app.get('/events', gameController.events);
+app.post('/s231063/set-name', gameController.setPlayerName);
+app.post('/s231063/assign-player', gameController.assignPlayer);
+app.post('/s231063/move', gameController.makeMove);
+app.post('/s231063/reset', gameController.reset);
+app.get('/s231063/state', gameController.getState);
+app.get('/s231063/events', gameController.events);
 
 const PORT = 3001;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`TicTacToe backend running on port ${PORT}`);
 });

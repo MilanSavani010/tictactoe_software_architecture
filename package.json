@@ -4,17 +4,21 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "build": "tsc -b && vite build",
-    "postbuild":"cp -r dist server/public",
+    "postbuild": "cp -r dist public || xcopy dist public /E /I /Y",
     "start": "cd server && node index.cjs",
     "lint": "eslint . --ext .ts,.tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "testfrontend": "vitest",
     "testbackend": "jest server/",
-    "server": "node server/index.cjs"
+    "server": "node server/index.cjs",
+    "buildimage": "docker build -t tictactoe-app .",
+    "start:all": "concurrently \"npm run server\" \"npm run dev\"",
+    "runimage": "docker run -p 3001:3001 -p 8080:8080 tictactoe-app"
   },
   "dependencies": {
+    "concurrently": "^9.2.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "react": "^19.1.0",

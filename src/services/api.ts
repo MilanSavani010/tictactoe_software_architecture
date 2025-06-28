@@ -1,6 +1,6 @@
 import type { GameState, Player } from '../types/types';
 
-const API_URL = 'http://localhost:3001';
+const API_URL = `http://${window.location.hostname}:3001/s231063`;
 
 export const api = {
   async fetchGameState(): Promise<GameState> {

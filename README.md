@@ -92,11 +92,11 @@ npm run postbuild
 
 2. **Run the Docker container:**
    ```sh
-   docker run -p 3001:3001 tictactoe-2257738
+   docker run -p 8080:8080 tictactoe-2257738
    ```
 
 3. **Access the app:**  
-   Open [http://localhost:3001](http://localhost:3001) in your browser.
+   Open [http://localhost:8080](http://localhost:8080) in your browser.
 
 
 
