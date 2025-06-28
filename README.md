@@ -2,19 +2,6 @@
 
 TicTacToe repository for Software Architecture and Design Patterns exercises.
 
-## Repository Owner
-
-
-- Name: Milan Savani
-- Student-ID (Matrikelnummer):2257738
-- S-Number: s231063
-
-## Collaborators
-
-- Name: Ashish Ghaskata
-- Student-ID (Matrikelnummer):2261151
-- S-Number: s231073
-
 
 
 ## Structure of this repository
