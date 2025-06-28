@@ -56,34 +56,43 @@ This project was bootstrapped using [Vite](https://vitejs.dev/) with the React +
    npm install
    ```
 
-2. **Start the development server:**
+2. **Start the frontend development server:**
    ```sh
    npm run dev
    ```
    The app will be available at [http://localhost:8080](http://localhost:8080).
 
+3. **Start the backend development server:**
+   ```sh
+   npm run server
+   ```
+   The app will be available at [http://localhost:3001](http://localhost:3001).
 ---
 
 ## How to Test
 
-This project uses [Vitest](https://vitest.dev/) and [React Testing Library](https://testing-library.com/).
-
-To run all tests:
+To run frontend tests:
 ```sh
-npm run test
+npm run testfrontend
+```
+To run backend tests:
+```sh
+npm run testbackend
 ```
 
-Test files are located in `src/tests/`.
 
 ---
 
 ## How to Build
 
-To create a production build:
+To create a frontend production build:
 ```sh
 npm run build
 ```
-The output will be in the `dist/` directory.
+To create a backend and frontend as a whole package
+```sh
+npm run postbuild
+```
 
 ---
 
@@ -91,21 +100,18 @@ The output will be in the `dist/` directory.
 
 1. **Build the Docker image:**
    ```sh
-   docker build -t tictactoe-app .
+   docker build -t tictactoe-2257738 .
    ```
 
 2. **Run the Docker container:**
    ```sh
-   docker run -p 8080:8080 tictactoe-app
+   docker run -p 3001:3001 tictactoe-2257738
    ```
 
 3. **Access the app:**  
-   Open [http://localhost:8080](http://localhost:8080) in your browser.
+   Open [http://localhost:3001](http://localhost:3001) in your browser.
 
-**Note:**  
-The Docker container uses `npm run preview` to serve the production build on port 8080.
 
----
 
 ## Frontend (`src/`) Architecture
 ```
